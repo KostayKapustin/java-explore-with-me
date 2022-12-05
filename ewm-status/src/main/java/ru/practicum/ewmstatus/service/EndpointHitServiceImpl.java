@@ -2,9 +2,9 @@ package ru.practicum.ewmstatus.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.practicum.ewmmain.mapper.DateTimeMapper;
 import ru.practicum.ewmmain.model.ViewStats;
 import ru.practicum.ewmstatus.dto.EndpointHitDto;
+import ru.practicum.ewmstatus.mapper.DateTimeMapper;
 import ru.practicum.ewmstatus.mapper.EndpointHitMapper;
 import ru.practicum.ewmstatus.model.Hit;
 import ru.practicum.ewmstatus.repository.EndpointHitRepository;
