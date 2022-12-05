@@ -2,13 +2,14 @@ package ru.practicum.ewmstatus.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import ru.practicum.ewmmain.model.ViewStats;
 import ru.practicum.ewmstatus.model.Hit;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface EndpointHitRepository extends JpaRepository<Hit, Long> {
+public interface EndpointHitRepository extends JpaRepository<Hit, Long>, QuerydslPredicateExecutor<Hit> {
 
     @Query("select e.app as app, e.uri as uri, count(e.id) as hits" +
             " from Hit e" +
