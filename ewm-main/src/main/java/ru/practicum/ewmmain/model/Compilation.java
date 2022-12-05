@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -25,5 +25,5 @@ public class Compilation {
     boolean pinned;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    List<Event> events;
+    Set<Event> events;
 }
