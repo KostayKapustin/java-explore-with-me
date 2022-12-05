@@ -8,13 +8,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <groupId>ru.practicum</groupId>
     <artifactId>ewm-main</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>ewm-main</name>
-    <description>ewm-main</description>
-    <properties>
-        <java.version>11</java.version>
-    </properties>
 
 
     <dependencies>
