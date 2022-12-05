@@ -5,7 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.ewmmain.dto.ParticipationRequestDto;
+import ru.practicum.ewmmain.exception.EventNotFoundException;
 import ru.practicum.ewmmain.exception.ForbiddenException;
+import ru.practicum.ewmmain.exception.RequestNotFoundExceprion;
+import ru.practicum.ewmmain.exception.UserNotFoundException;
 import ru.practicum.ewmmain.mapper.RequestMapper;
 import ru.practicum.ewmmain.model.Event;
 import ru.practicum.ewmmain.model.Request;
@@ -121,16 +124,16 @@ public class RequestServiceImpl implements  RequestService {
 
     private User findUser(Long id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private Event findEvent(Long id) {
         return eventRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new EventNotFoundException(id));
     }
 
     private Request findRequest(Long id) {
         return requestRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new RequestNotFoundExceprion(id));
     }
 }

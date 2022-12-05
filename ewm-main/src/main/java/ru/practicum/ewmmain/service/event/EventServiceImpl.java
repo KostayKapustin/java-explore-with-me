@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.ewmmain.client.StatService;
 import ru.practicum.ewmmain.dto.events.*;
+import ru.practicum.ewmmain.exception.CategoryNotFoundException;
+import ru.practicum.ewmmain.exception.EventNotFoundException;
 import ru.practicum.ewmmain.exception.ForbiddenException;
+import ru.practicum.ewmmain.exception.UserNotFoundException;
 import ru.practicum.ewmmain.mapper.DateTimeMapper;
 import ru.practicum.ewmmain.mapper.EventMapper;
 import ru.practicum.ewmmain.model.*;
@@ -77,7 +80,7 @@ public class EventServiceImpl implements EventService {
         findUser(userId);
         Event event = findEvent(updateEventRequestDto.getEventId());
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new ForbiddenException("User with id=%d can`t update event with id=%d");
+            throw new ForbiddenException("User with can`t update event with");
         }
         if (event.getState() != EventState.CANCELED && event.getState() != EventState.PENDING) {
             throw new ForbiddenException("Event state for update must be CANCELED or PENDING");
@@ -119,7 +122,7 @@ public class EventServiceImpl implements EventService {
         findUser(userId);
         Event event = findEvent(eventId);
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new EventNotFoundException(eventId);
         }
         return getEventFullDto(event);
     }
@@ -128,7 +131,7 @@ public class EventServiceImpl implements EventService {
     public EventFullDto getEvent(Long eventId) {
         Event event = findEvent(eventId);
         if (event.getState() != EventState.PUBLISHED) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            throw new EventNotFoundException(eventId);
         }
         return getEventFullDto(event);
     }
@@ -192,7 +195,6 @@ public class EventServiceImpl implements EventService {
     }
 
 
-
     @Override
     public EventFullDto publishEvent(Long eventId) {
         Event event = findEvent(eventId);
@@ -252,17 +254,17 @@ public class EventServiceImpl implements EventService {
 
     private User findUser(Long id) {
         return userRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                () -> new UserNotFoundException(id));
     }
 
     private Categories findCategory(Long id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CategoryNotFoundException(id));
     }
 
     private Event findEvent(Long id) {
         return eventRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new EventNotFoundException(id));
     }
 
     private void setViews(List<? extends EventDto> eventDtoList) {
@@ -341,7 +343,6 @@ public class EventServiceImpl implements EventService {
             event.setTitle(updateEventDto.getTitle());
         }
     }
-
     private <T extends UpdateEventDto> void updateEvent(Event event, AdminUpdateEventRequestDto updateEventDto) {
         if (updateEventDto.getAnnotation() != null) {
             event.setAnnotation(updateEventDto.getAnnotation());

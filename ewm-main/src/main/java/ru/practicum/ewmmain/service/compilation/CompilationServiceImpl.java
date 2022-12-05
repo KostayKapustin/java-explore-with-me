@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.ewmmain.dto.compilations.CompilationDto;
 import ru.practicum.ewmmain.dto.compilations.NewCompilationsDto;
+import ru.practicum.ewmmain.exception.CompilationNotFoundException;
 import ru.practicum.ewmmain.exception.EventNotFoundException;
 import ru.practicum.ewmmain.mapper.CompilationMapper;
 import ru.practicum.ewmmain.model.Compilation;
@@ -95,11 +94,11 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     public CompilationDto getCompilation(Long compId) {
         return CompilationMapper.toCompilationDto(compilationRepository.findById(compId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND)));
+                .orElseThrow(() -> new CompilationNotFoundException(compId)));
     }
 
     private Compilation findCompilation(Long id) {
         return compilationRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new CompilationNotFoundException(id));
     }
 }
