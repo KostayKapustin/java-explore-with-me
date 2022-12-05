@@ -1,9 +1,7 @@
 package ru.practicum.ewmmain.service.request;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.ewmmain.dto.ParticipationRequestDto;
 import ru.practicum.ewmmain.exception.EventNotFoundException;
 import ru.practicum.ewmmain.exception.ForbiddenException;

@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import ru.practicum.ewmmain.client.StatService;
 import ru.practicum.ewmmain.dto.events.*;
 import ru.practicum.ewmmain.exception.CategoryNotFoundException;
@@ -343,6 +341,7 @@ public class EventServiceImpl implements EventService {
             event.setTitle(updateEventDto.getTitle());
         }
     }
+
     private <T extends UpdateEventDto> void updateEvent(Event event, AdminUpdateEventRequestDto updateEventDto) {
         if (updateEventDto.getAnnotation() != null) {
             event.setAnnotation(updateEventDto.getAnnotation());
