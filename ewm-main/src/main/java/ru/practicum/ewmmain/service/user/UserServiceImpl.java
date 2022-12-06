@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
                 .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
     }
-    
+
     @Override
     public UserDto addUser(NewUsersDto newUsersDto) {
         User user = UserMapper.toUser(newUsersDto);
