@@ -48,10 +48,10 @@ public class PublicController {
                                          @Positive @RequestParam(defaultValue = "10") Integer size,
                                          HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
-        List<EventShortDto> eventShortDtos = eventService.getEventsWithFilter(text, categories, paid,
+        List<EventShortDto> eventShortDto = eventService.getEventsWithFilter(text, categories, paid,
                 rangeStart, rangeEnd, onlyAvailable, sort, from, size);
         statService.postEndpointHit(new EndpointHit(request.getRequestURI(), request.getRemoteAddr()));
-        return eventShortDtos;
+        return eventShortDto;
     }
 
     @GetMapping("${events.path}" + "/{id}")
