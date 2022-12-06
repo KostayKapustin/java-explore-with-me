@@ -21,12 +21,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public UserDto addUser(NewUsersDto newUsersDto) {
-        User user = UserMapper.toUser(newUsersDto);
-        return UserMapper.toUserDto(userRepository.save(user));
-    }
-    
-    @Override
     public List<UserDto> getUsers(List<Long> ids, Integer from, Integer size) {
         int page = from / size;
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
@@ -39,6 +33,12 @@ public class UserServiceImpl implements UserService {
         return users.stream()
                 .map(UserMapper::toUserDto)
                 .collect(Collectors.toList());
+    }
+    
+    @Override
+    public UserDto addUser(NewUsersDto newUsersDto) {
+        User user = UserMapper.toUser(newUsersDto);
+        return UserMapper.toUserDto(userRepository.save(user));
     }
 
     @Override
