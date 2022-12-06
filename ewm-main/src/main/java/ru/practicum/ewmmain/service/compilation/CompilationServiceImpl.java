@@ -27,6 +27,15 @@ public class CompilationServiceImpl implements CompilationService {
     private final EventRepository eventRepository;
 
     @Override
+    public void addEventToCompilation(Long compId, Long eventId) {
+        Compilation compilation = findCompilation(compId);
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new EventNotFoundException(eventId));
+        compilation.getEvents().add(event);
+        compilationRepository.save(compilation);
+    }
+
+    @Override
     public CompilationDto addCompilation(NewCompilationsDto newCompilationDto) {
         Compilation compilation = CompilationMapper.toCompilation(newCompilationDto);
         Set<Event> events = newCompilationDto.getEvents()
@@ -48,15 +57,6 @@ public class CompilationServiceImpl implements CompilationService {
     public void deleteEventFromCompilation(Long compId, Long eventId) {
         Compilation compilation = findCompilation(compId);
         compilation.getEvents().removeIf(event -> event.getId().equals(eventId));
-        compilationRepository.save(compilation);
-    }
-
-    @Override
-    public void addEventToCompilation(Long compId, Long eventId) {
-        Compilation compilation = findCompilation(compId);
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new EventNotFoundException(eventId));
-        compilation.getEvents().add(event);
         compilationRepository.save(compilation);
     }
 

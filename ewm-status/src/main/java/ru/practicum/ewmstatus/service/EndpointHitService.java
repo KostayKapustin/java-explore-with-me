@@ -1,7 +1,7 @@
 package ru.practicum.ewmstatus.service;
 
-import ru.practicum.ewmmain.model.ViewStats;
 import ru.practicum.ewmstatus.dto.EndpointHitDto;
+import ru.practicum.ewmstatus.model.ViewStats;
 
 import java.util.List;
 

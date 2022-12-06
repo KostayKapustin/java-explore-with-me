@@ -20,7 +20,7 @@ public class EventMapper {
         event.setDescription(newEventDto.getDescription());
         LocalDateTime eventDate = DateTimeMapper.toLocalDateTime(newEventDto.getEventDate());
         if (Duration.between(LocalDateTime.now(), eventDate).toHours() < 2) {
-            throw new ValidationException("The event is less than two hours away");
+            throw new ValidationException("До начала мероприятия осталось менее двух часов!");
         }
         event.setEventDate(eventDate);
         event.setLocationLat(newEventDto.getLocation().getLat());

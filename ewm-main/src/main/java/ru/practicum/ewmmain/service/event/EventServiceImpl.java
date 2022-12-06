@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import ru.practicum.ewmmain.client.ViewStats;
 import ru.practicum.ewmmain.client.StatService;
 import ru.practicum.ewmmain.dto.events.*;
 import ru.practicum.ewmmain.exception.CategoryNotFoundException;
@@ -25,12 +26,10 @@ import ru.practicum.ewmmain.repository.EventRepository;
 import ru.practicum.ewmmain.repository.UserRepository;
 
 import javax.persistence.EntityManager;
+import javax.validation.ValidationException;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -78,13 +77,13 @@ public class EventServiceImpl implements EventService {
         findUser(userId);
         Event event = findEvent(updateEventRequestDto.getEventId());
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new ForbiddenException("User with can`t update event with");
+            throw new ForbiddenException("Пользователь не может обновить событие");
         }
         if (event.getState() != EventState.CANCELED && event.getState() != EventState.PENDING) {
-            throw new ForbiddenException("Event state for update must be CANCELED or PENDING");
+            throw new ForbiddenException("Состояние события для обновления должно быть  CANCELED или PENDING");
         }
         if (Duration.between(LocalDateTime.now(), event.getEventDate()).toHours() < 2) {
-            throw new ForbiddenException("The events is less than two hours away");
+            throw new ValidationException("До событий осталось меньше двух часов");
         }
 
         updateEvent(event, updateEventRequestDto);
@@ -92,7 +91,7 @@ public class EventServiceImpl implements EventService {
         if (updateEventRequestDto.getEventDate() != null) {
             LocalDateTime eventDate = DateTimeMapper.toLocalDateTime(updateEventRequestDto.getEventDate());
             if (Duration.between(LocalDateTime.now(), eventDate).toHours() < 2) {
-                throw new ForbiddenException("The update event is less than two hours away");
+                throw new ValidationException("До события обновления осталось менее двух часов");
             }
             event.setEventDate(eventDate);
         }
@@ -139,10 +138,10 @@ public class EventServiceImpl implements EventService {
         findUser(userId);
         Event event = findEvent(eventId);
         if (!event.getInitiator().getId().equals(userId)) {
-            throw new ForbiddenException("User with id=%d can`t update event with id=%d");
+            throw new ForbiddenException("Пользователь не может обновить событие");
         }
         if (event.getState() != EventState.PENDING) {
-            throw new ForbiddenException("Only pending or canceled events can be changed");
+            throw new ForbiddenException("Могут быть изменены только ожидающие или отмененные события");
         }
         event.setState(EventState.CANCELED);
         eventRepository.save(event);
@@ -197,10 +196,10 @@ public class EventServiceImpl implements EventService {
     public EventFullDto publishEvent(Long eventId) {
         Event event = findEvent(eventId);
         if (Duration.between(LocalDateTime.now(), event.getEventDate()).toHours() < 1) {
-            throw new ForbiddenException("Event is less than one hour away");
+            throw new ForbiddenException("До мероприятия осталось меньше часа");
         }
         if (event.getState() != EventState.PENDING) {
-            throw new ForbiddenException("Event must be in PENDING state");
+            throw new ForbiddenException("Событие должно находиться в состоянии PENDING");
         }
         event.setState(EventState.PUBLISHED);
         eventRepository.save(event);
@@ -211,7 +210,7 @@ public class EventServiceImpl implements EventService {
     public EventFullDto rejectEvent(Long eventId) {
         Event event = findEvent(eventId);
         if (event.getState() == EventState.PUBLISHED) {
-            throw new ForbiddenException("Event don`t must be in PUBLISHED state");
+            throw new ForbiddenException("Событие не должно находиться в состоянии PUBLISHED");
         }
         event.setState(EventState.CANCELED);
         eventRepository.save(event);
@@ -303,10 +302,11 @@ public class EventServiceImpl implements EventService {
         for (EventDto eventDto : eventDtoList) {
             Optional<Tuple> tupleOptional = tupleList
                     .stream()
-                    .filter(t -> t.get(qRequest.event.id).equals(eventDto.getId()))
+                    .filter(t -> Objects.equals(t.get(qRequest.event.id), eventDto.getId()))
                     .findFirst();
             if (tupleOptional.isPresent()) {
-                eventDto.setConfirmedRequests(tupleOptional.get().get(qRequest.count()).intValue());
+                eventDto.setConfirmedRequests(Objects.requireNonNull(tupleOptional.get().get(qRequest.count()))
+                        .intValue());
             } else {
                 eventDto.setConfirmedRequests(0);
             }
@@ -320,7 +320,7 @@ public class EventServiceImpl implements EventService {
         return eventFullDto;
     }
 
-    private <T extends UpdateEventDto> void updateEvent(Event event, T updateEventDto) {
+    private void updateEvent(Event event, UpdateEventRequestDto updateEventDto) {
         if (updateEventDto.getAnnotation() != null) {
             event.setAnnotation(updateEventDto.getAnnotation());
         }
@@ -342,7 +342,7 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    private <T extends UpdateEventDto> void updateEvent(Event event, AdminUpdateEventRequestDto updateEventDto) {
+    private void updateEvent(Event event, AdminUpdateEventRequestDto updateEventDto) {
         if (updateEventDto.getAnnotation() != null) {
             event.setAnnotation(updateEventDto.getAnnotation());
         }
@@ -435,8 +435,8 @@ public class EventServiceImpl implements EventService {
     private List<EventShortDto> mapListEventsToEventShortDto(List<Tuple> tupleList, QEvent qEvent, QRequest qRequest) {
         return tupleList.stream()
                 .map(e -> {
-                    EventShortDto eventShortDto = EventMapper.toEventShortDto(e.get(qEvent));
-                    eventShortDto.setConfirmedRequests(e.get(qRequest.count()).intValue());
+                    EventShortDto eventShortDto = EventMapper.toEventShortDto(Objects.requireNonNull(e.get(qEvent)));
+                    eventShortDto.setConfirmedRequests(Objects.requireNonNull(e.get(qRequest.count())).intValue());
                     return eventShortDto;
                 })
                 .collect(Collectors.toList());

@@ -23,7 +23,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundException(final RuntimeException e) {
         log.info(HttpStatus.BAD_REQUEST + ": " + e.getMessage());
-        return new ErrorResponse(e.getClass().toString(), e.getMessage(), "Element not found",
+        return new ErrorResponse(e.getClass().toString(), e.getMessage(), "Элемент не найден",
                 HttpStatus.NOT_FOUND.toString());
     }
 
@@ -31,7 +31,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleConstraintViolationException(final ConstraintViolationException e) {
         log.info(HttpStatus.CONFLICT + ": " + e.getMessage());
-        return new ErrorResponse(e.getConstraintName(), e.getMessage(), "Constraint exception",
+        return new ErrorResponse(e.getConstraintName(), e.getMessage(), "Исключение ограничения",
                 HttpStatus.CONFLICT.toString());
     }
 
@@ -39,8 +39,8 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleMissingParameterException(final MissingServletRequestParameterException e) {
         log.info(HttpStatus.BAD_REQUEST + ": " + e.getMessage());
-        return new ErrorResponse(e.getParameterName() + " parameter is missing", e.getMessage(),
-                "Required parameter not found", HttpStatus.BAD_REQUEST.toString());
+        return new ErrorResponse(e.getParameterName() + " параметр отсутствует", e.getMessage(),
+                "Требуемый параметр не найден", HttpStatus.BAD_REQUEST.toString());
     }
 
     @ExceptionHandler
@@ -54,6 +54,7 @@ public class ErrorHandler {
         for (ObjectError error : e.getBindingResult().getGlobalErrors()) {
             errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
         }
-        return new ErrorResponse(errors, e.getFieldErrors().toString(), "Not Valid parameter", HttpStatus.BAD_REQUEST.toString());
+        return new ErrorResponse(errors, e.getFieldErrors().toString(), "Недопустимый параметр",
+                HttpStatus.BAD_REQUEST.toString());
     }
 }

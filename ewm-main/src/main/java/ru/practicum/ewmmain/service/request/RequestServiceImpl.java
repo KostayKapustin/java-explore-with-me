@@ -30,6 +30,45 @@ public class RequestServiceImpl implements  RequestService {
     private final UserRepository userRepository;
 
     @Override
+    public ParticipationRequestDto addRequest(Long userId, Long eventId) {
+        User user = findUser(userId);
+        Event event = findEvent(eventId);
+        Request existRequest = requestRepository.findByRequester_IdAndEvent_Id(userId, eventId);
+        if (existRequest != null) {
+            throw new ForbiddenException(String.format("Запрос с идентификатором id=%d, " +
+                    "EventID=%d уже существует", userId, eventId));
+        }
+        if (event.getInitiator().getId().equals(userId)) {
+            throw new ForbiddenException(String.format("Пользователь с id=%d является инициатором события с id=%d",
+                    userId, eventId));
+        }
+        if (event.getState() != EventState.PUBLISHED) {
+            throw new ForbiddenException("Событие не публикуется");
+        }
+        int count = requestRepository.findByEvent_IdAndStatus(eventId, RequestStatus.CONFIRMED).size();
+        if (count >= event.getParticipantLimit() && event.getParticipantLimit() != 0) {
+            throw new ForbiddenException("Лимит участников был достигнут");
+        }
+        Request request = new Request();
+        request.setCreated(LocalDateTime.now());
+        request.setRequester(user);
+        request.setEvent(event);
+        if (!event.isRequestModeration()) {
+            request.setStatus(RequestStatus.CONFIRMED);
+        } else {
+            request.setStatus(RequestStatus.PENDING);
+        }
+        return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
+    }
+
+    @Override
+    public List<ParticipationRequestDto> getRequests(Long userId) {
+        return requestRepository.findByRequester_Id(userId)
+                .stream()
+                .map(RequestMapper::toParticipationRequestDto)
+                .collect(Collectors.toList());
+    }
+    @Override
     public List<ParticipationRequestDto> getEventRequests(Long userId, Long eventId) {
         return requestRepository.findByEvent_Id(eventId)
                 .stream()
@@ -68,52 +107,11 @@ public class RequestServiceImpl implements  RequestService {
     }
 
     @Override
-    public List<ParticipationRequestDto> getRequests(Long userId) {
-        return requestRepository.findByRequester_Id(userId)
-                .stream()
-                .map(RequestMapper::toParticipationRequestDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public ParticipationRequestDto addRequest(Long userId, Long eventId) {
-        User user = findUser(userId);
-        Event event = findEvent(eventId);
-        Request existRequest = requestRepository.findByRequester_IdAndEvent_Id(userId, eventId);
-        if (existRequest != null) {
-            throw new ForbiddenException(String.format("Запрос с идентификатором пользователя=%d, " +
-                    "EventID=%d уже существует", userId, eventId));
-        }
-        if (event.getInitiator().getId().equals(userId)) {
-            throw new ForbiddenException(String.format("Пользователь с id=%d является инициатором события с id=%d",
-                    userId, eventId));
-        }
-        if (event.getState() != EventState.PUBLISHED) {
-            throw new ForbiddenException("Событие не публикуется");
-        }
-        int count = requestRepository.findByEvent_IdAndStatus(eventId, RequestStatus.CONFIRMED).size();
-        if (count >= event.getParticipantLimit() && event.getParticipantLimit() != 0) {
-            throw new ForbiddenException("Лимит участников был достигнут");
-        }
-        Request request = new Request();
-        request.setCreated(LocalDateTime.now());
-        request.setRequester(user);
-        request.setEvent(event);
-        if (!event.isRequestModeration()) {
-            request.setStatus(RequestStatus.CONFIRMED);
-        } else {
-            request.setStatus(RequestStatus.PENDING);
-        }
-        return RequestMapper.toParticipationRequestDto(requestRepository.save(request));
-    }
-
-    @Override
     public ParticipationRequestDto cancelRequest(Long userId, Long requestId) {
         findUser(userId);
         Request request = findRequest(requestId);
         if (!request.getRequester().getId().equals(userId)) {
-            throw new ForbiddenException(String.format("Пользователь с id=%d не является инициатором запроса с id=%d",
-                    userId, requestId));
+            throw new ForbiddenException(String.format("Пользователь не является инициатором запроса"));
         }
         request.setStatus(RequestStatus.CANCELED);
         requestRepository.save(request);

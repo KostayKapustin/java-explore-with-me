@@ -5,7 +5,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import ru.practicum.ewmmain.model.EndpointHit;
-import ru.practicum.ewmmain.model.ViewStats;
 
 import java.util.List;
 

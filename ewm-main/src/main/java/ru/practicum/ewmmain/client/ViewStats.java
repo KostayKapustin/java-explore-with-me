@@ -1,4 +1,4 @@
-package ru.practicum.ewmmain.model;
+package ru.practicum.ewmmain.client;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
