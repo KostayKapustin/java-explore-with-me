@@ -8,10 +8,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>ewmmain</artifactId>
+    <artifactId>ewm-main</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
-    <name>ewmmain</name>
+    <name>ewm-main</name>
 
     <dependencies>
         <dependency>

@@ -24,7 +24,7 @@
 	</properties>
 
 	<modules>
-		<module>ewmmain</module>
+		<module>ewm-main</module>
 		<module>ewm-status</module>
 	</modules>
 
