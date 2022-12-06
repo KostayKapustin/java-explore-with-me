@@ -10,9 +10,9 @@ import java.util.List;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class NewCompilationsDto {
+
+    @NotNull(message = "title не может быть равным Null!")
     String title;
     Boolean pinned = false;
-
-    @NotNull(message = "events не может быть равным Null!")
     List<Long> events;
 }

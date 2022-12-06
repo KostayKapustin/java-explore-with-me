@@ -23,14 +23,16 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundException(final RuntimeException e) {
         log.info(HttpStatus.BAD_REQUEST + ": " + e.getMessage());
-        return new ErrorResponse(e.getClass().toString(), e.getMessage(), "Element not found", HttpStatus.NOT_FOUND.toString());
+        return new ErrorResponse(e.getClass().toString(), e.getMessage(), "Element not found",
+                HttpStatus.NOT_FOUND.toString());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.CONFLICT)
     public ErrorResponse handleConstraintViolationException(final ConstraintViolationException e) {
         log.info(HttpStatus.CONFLICT + ": " + e.getMessage());
-        return new ErrorResponse(e.getConstraintName(), e.getMessage(), "Constraint exception", HttpStatus.CONFLICT.toString());
+        return new ErrorResponse(e.getConstraintName(), e.getMessage(), "Constraint exception",
+                HttpStatus.CONFLICT.toString());
     }
 
     @ExceptionHandler
@@ -45,7 +47,7 @@ public class ErrorHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleArgumentNotValidException(final MethodArgumentNotValidException e) {
         log.info(HttpStatus.BAD_REQUEST + ": " + e.getMessage());
-        List<String> errors = new ArrayList<String>();
+        List<String> errors = new ArrayList<>();
         for (FieldError error : e.getBindingResult().getFieldErrors()) {
             errors.add(error.getField() + ": " + error.getDefaultMessage());
         }

@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 import ru.practicum.ewmmain.model.constant.EventState;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Data
@@ -17,10 +18,11 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_id",length = 2000)
+    @Column(name = "event_id")
     Long id;
 
-    @Column(name = "annotation")
+    @Size(max = 2000)
+    @Column(name = "annotation", length = 2000)
     String annotation;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +32,7 @@ public class Event {
     @Column(name = "created_on")
     LocalDateTime createdOn;
 
+    @Size(max = 7000)
     @Column(name = "description",length = 7000)
     String description;
 
