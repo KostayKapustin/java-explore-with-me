@@ -9,6 +9,13 @@
     </parent>
 
     <artifactId>ewm-main</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>ewm-main</name>
+
+    <properties>
+        <java.version>11</java.version>
+    </properties>
 
     <dependencies>
         <dependency>

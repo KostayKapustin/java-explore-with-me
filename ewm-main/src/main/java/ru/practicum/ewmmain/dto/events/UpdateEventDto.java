@@ -14,8 +14,6 @@ public interface UpdateEventDto {
 
     Integer getParticipantLimit();
 
-    Boolean getRequestModeration();
-
     String getTitle();
 
 }

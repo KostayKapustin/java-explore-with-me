@@ -33,7 +33,7 @@ public class PrivateController {
                                          @PositiveOrZero @RequestParam(defaultValue = "0") int from,
                                          @Positive @RequestParam(defaultValue = "10") int size,
                                          HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return eventService.getEvents(userId, from, size);
     }
 
@@ -41,7 +41,7 @@ public class PrivateController {
     public EventFullDto updateEvent(@PathVariable Long userId,
                                     @Valid @RequestBody UpdateEventRequestDto updateEventRequestDto,
                                     HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return eventService.updateEvent(userId, updateEventRequestDto);
     }
 
@@ -49,7 +49,7 @@ public class PrivateController {
     public EventFullDto addEvent(@PathVariable Long userId,
                                  @Valid @RequestBody NewEventsDto newEventDto,
                                  HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return eventService.addEvent(userId, newEventDto);
     }
 
@@ -57,7 +57,7 @@ public class PrivateController {
     public EventFullDto getEvent(@PathVariable Long userId,
                                  @PathVariable Long eventId,
                                  HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return eventService.getEvent(userId, eventId);
     }
 
@@ -65,7 +65,7 @@ public class PrivateController {
     public EventFullDto cancelEvent(@PathVariable Long userId,
                                     @PathVariable Long eventId,
                                     HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return eventService.cancelEvent(userId, eventId);
     }
 
@@ -73,7 +73,7 @@ public class PrivateController {
     public List<ParticipationRequestDto> getEventRequests(@PathVariable Long userId,
                                                           @PathVariable Long eventId,
                                                           HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return requestService.getEventRequests(userId, eventId);
     }
 
@@ -82,7 +82,7 @@ public class PrivateController {
                                                   @PathVariable Long eventId,
                                                   @PathVariable Long reqId,
                                                   HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return requestService.confirmRequest(userId, eventId, reqId);
     }
 
@@ -91,14 +91,14 @@ public class PrivateController {
                                                  @PathVariable Long eventId,
                                                  @PathVariable Long reqId,
                                                  HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return requestService.rejectRequest(userId, eventId, reqId);
     }
 
     @GetMapping("/{userId}/requests")
     public List<ParticipationRequestDto> getRequests(@PathVariable Long userId,
                                                      HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return requestService.getRequests(userId);
     }
 
@@ -106,7 +106,7 @@ public class PrivateController {
     public ParticipationRequestDto addRequest(@PathVariable Long userId,
                                               @RequestParam Long eventId,
                                               HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return requestService.addRequest(userId, eventId);
     }
 
@@ -114,7 +114,7 @@ public class PrivateController {
     public ParticipationRequestDto cancelRequest(@PathVariable Long userId,
                                                  @PathVariable Long requestId,
                                                  HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return requestService.cancelRequest(userId, requestId);
     }
 }

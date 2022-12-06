@@ -16,12 +16,12 @@ public class UpdateEventRequestDto implements UpdateEventDto {
     @NotNull
     Long eventId;
 
-    @Size(min = 20, max = 2000, message = "Annotation must be between 20 and 2000 characters")
+    @Size(min = 20, max = 2000, message = "Annotation  должна содержать от 20 до 2000 символов!")
     String annotation;
 
     Long category;
 
-    @Size(min = 20, max = 7000, message = "Annotation must be between 20 and 7000 characters")
+    @Size(min = 20, max = 7000, message = "description  должна содержать от 20 до 7000 символов!")
     String description;
 
     String eventDate;
@@ -32,6 +32,6 @@ public class UpdateEventRequestDto implements UpdateEventDto {
 
     Boolean requestModeration;
 
-    @Size(min = 3, max = 120, message = "Annotation must be between 3 and 120 characters")
+    @Size(min = 3, max = 120, message = "title  должна содержать от 3 до 120 символов!")
     String title;
 }

@@ -47,7 +47,7 @@ public class PublicController {
                                          @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                          @Positive @RequestParam(defaultValue = "10") Integer size,
                                          HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         List<EventShortDto> eventShortDtos = eventService.getEventsWithFilter(text, categories, paid,
                 rangeStart, rangeEnd, onlyAvailable, sort, from, size);
         statService.postEndpointHit(new EndpointHit(request.getRequestURI(), request.getRemoteAddr()));
@@ -57,7 +57,7 @@ public class PublicController {
     @GetMapping("${events.path}" + "/{id}")
     public EventFullDto getEvent(@PathVariable Long id,
                                  HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         EventFullDto eventFullDto = eventService.getEvent(id);
         statService.postEndpointHit(new EndpointHit(request.getRequestURI(), request.getRemoteAddr()));
         return eventFullDto;
@@ -67,14 +67,14 @@ public class PublicController {
     public List<CategoryDto> getCategories(@PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                            @Positive @RequestParam(defaultValue = "10") Integer size,
                                            HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return categoryService.getCategories(from, size);
     }
 
     @GetMapping("/categories/{catId}")
     public CategoryDto getCategory(@PathVariable Long catId,
                                    HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return categoryService.getCategory(catId);
     }
 
@@ -83,14 +83,14 @@ public class PublicController {
                                                 @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                                 @Positive @RequestParam(defaultValue = "10") Integer size,
                                                 HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return compilationService.getCompilations(pinned, from, size);
     }
 
     @GetMapping("/compilations/{compId}")
     public CompilationDto getCompilation(@PathVariable Long compId,
                                          HttpServletRequest request) {
-        log.info("Get new request: {}", RequestBuilder.getStringFromRequest(request));
+        log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return compilationService.getCompilation(compId);
     }
 }
