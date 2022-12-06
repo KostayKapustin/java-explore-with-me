@@ -68,6 +68,7 @@ public class RequestServiceImpl implements  RequestService {
                 .map(RequestMapper::toParticipationRequestDto)
                 .collect(Collectors.toList());
     }
+
     @Override
     public List<ParticipationRequestDto> getEventRequests(Long userId, Long eventId) {
         return requestRepository.findByEvent_Id(eventId)

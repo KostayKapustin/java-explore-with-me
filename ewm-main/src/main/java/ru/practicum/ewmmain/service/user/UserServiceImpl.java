@@ -25,6 +25,7 @@ public class UserServiceImpl implements UserService {
         User user = UserMapper.toUser(newUsersDto);
         return UserMapper.toUserDto(userRepository.save(user));
     }
+    
     @Override
     public List<UserDto> getUsers(List<Long> ids, Integer from, Integer size) {
         int page = from / size;
