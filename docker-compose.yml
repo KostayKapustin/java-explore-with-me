@@ -24,9 +24,9 @@ services:
       - POSTGRES_DB=ewm_status_db
 
   ewm-service:
-    build: main-service
-    image: main-service_image
-    container_name: main_service_container
+    build: ewm-main
+    image: ewm-main_image
+    container_name: ewm-main_container
     ports:
       - "8080:8080"
     depends_on:
