@@ -19,7 +19,7 @@ public class WebClientConfiguration {
     private final String baseUrl;
     public static final int TIMEOUT = 10000;
 
-    public WebClientConfiguration(@Value("${ewm-stat.url}") String baseUrl) {
+    public WebClientConfiguration(@Value("${ewm-status.url}") String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
