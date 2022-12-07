@@ -112,7 +112,7 @@ public class RequestServiceImpl implements  RequestService {
         findUser(userId);
         Request request = findRequest(requestId);
         if (!request.getRequester().getId().equals(userId)) {
-            throw new ForbiddenException(String.format("Пользователь не является инициатором запроса"));
+            throw new ForbiddenException("Пользователь не является инициатором запроса");
         }
         request.setStatus(RequestStatus.CANCELED);
         requestRepository.save(request);
