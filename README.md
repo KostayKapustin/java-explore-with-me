@@ -54,7 +54,7 @@ Java 11, Spring Boot, Lombok, JPA, Hibernate, PostgreSQL, H2, Maven, Docker
 
 # Feature
 В дополнение к техническому заданию в приложении реализована функция добавления комментариев к событиям и их модерации. 
-Пулл-реквест можно посмотреть [feature](https://github.com/KostayKapustin/java-explore-with-me/pull/4).
+Пулл-реквест можно посмотреть :[feature](https://github.com/KostayKapustin/java-explore-with-me/pull/4/commits/f2db7975f1301cf797874c1a4f54ab91589c269c).
 
 ### Административное API позволяет:
 
