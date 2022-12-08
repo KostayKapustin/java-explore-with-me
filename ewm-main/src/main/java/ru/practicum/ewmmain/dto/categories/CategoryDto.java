@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-@Validated
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class CategoryDto {
 
