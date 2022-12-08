@@ -38,10 +38,10 @@ public class AdminController {
 
     private final CompilationService compilationService;
 
-    private final String EVENT = "/events";
-    private final String CATEGORIES = "/categories";
-    private final String USER = "/users";
-    private final String COMPILATION = "/compilations";
+    private final static String EVENT = "/events";
+    private final static String CATEGORIES = "/categories";
+    private final static String USER = "/users";
+    private final static String COMPILATION = "/compilations";
 
     @GetMapping(EVENT)
     public List<EventFullDto> getEvents(@RequestParam(required = false) List<Long> users,
