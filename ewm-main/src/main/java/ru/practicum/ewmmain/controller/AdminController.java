@@ -38,11 +38,12 @@ public class AdminController {
 
     private final CompilationService compilationService;
 
-    private final String event_path = "/events";
-    private final String categories_path = "/categories";
-    private final String users_path = "/users";
-    private final String compilations_path = "/compilations";
-    @GetMapping(event_path)
+    private final String EVENT_PATH = "/events";
+    private final String CATEGORIES_PATH = "/categories";
+    private final String USER_PATH = "/users";
+    private final String COMPILATION_PATH = "/compilations";
+
+    @GetMapping(EVENT_PATH)
     public List<EventFullDto> getEvents(@RequestParam(required = false) List<Long> users,
                                         @RequestParam(required = false) List<String> states,
                                         @RequestParam(required = false) List<Long> categories,
@@ -55,7 +56,7 @@ public class AdminController {
         return eventService.getEvents(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
-    @PutMapping(event_path + "/{eventId}")
+    @PutMapping(EVENT_PATH + "/{eventId}")
     public EventFullDto updateEvent(@PathVariable Long eventId,
                                     @RequestBody AdminUpdateEventRequestDto requestDto,
                                     HttpServletRequest request) {
@@ -63,42 +64,42 @@ public class AdminController {
         return eventService.updateEvent(eventId, requestDto);
     }
 
-    @PatchMapping(event_path + "/{eventId}/publish")
+    @PatchMapping(EVENT_PATH + "/{eventId}/publish")
     public EventFullDto publishEvent(@PathVariable Long eventId,
                                      HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return eventService.publishEvent(eventId);
     }
 
-    @PatchMapping(event_path + "/{eventId}/reject")
+    @PatchMapping(EVENT_PATH + "/{eventId}/reject")
     public EventFullDto publishReject(@PathVariable Long eventId,
                                       HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return eventService.rejectEvent(eventId);
     }
 
-    @PatchMapping(categories_path)
+    @PatchMapping(CATEGORIES_PATH)
     public CategoryDto updateCategory(@Valid @RequestBody CategoryDto categoryDto,
                                       HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return categoriesService.updateCategory(categoryDto);
     }
 
-    @PostMapping(categories_path)
+    @PostMapping(CATEGORIES_PATH)
     public CategoryDto addCategory(@Valid @RequestBody NewCategoriesDto newCategoryDto,
                                    HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return categoriesService.addCategory(newCategoryDto);
     }
 
-    @DeleteMapping(categories_path + "/{catId}")
+    @DeleteMapping(CATEGORIES_PATH + "/{catId}")
     public void deleteCategory(@PathVariable Long catId,
                                HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         categoriesService.deleteCategory(catId);
     }
 
-    @GetMapping(users_path)
+    @GetMapping(USER_PATH)
     public List<UserDto> getUsers(@RequestParam List<Long> ids,
                                   @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                   @Positive @RequestParam(defaultValue = "10") Integer size,
@@ -107,35 +108,35 @@ public class AdminController {
         return userService.getUsers(ids, from, size);
     }
 
-    @PostMapping(users_path)
+    @PostMapping(USER_PATH)
     public UserDto addUser(@Valid @RequestBody NewUsersDto newUsersDto,
                            HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return userService.addUser(newUsersDto);
     }
 
-    @DeleteMapping(users_path + "/{userId}")
+    @DeleteMapping(USER_PATH + "/{userId}")
     public void deleteUser(@PathVariable Long userId,
                            HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         userService.deleteUser(userId);
     }
 
-    @PostMapping(compilations_path)
+    @PostMapping(COMPILATION_PATH)
     public CompilationDto addCompilation(@Valid @RequestBody NewCompilationsDto newCompilationDto,
                                          HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         return compilationService.addCompilation(newCompilationDto);
     }
 
-    @DeleteMapping(compilations_path + "/{compId}")
+    @DeleteMapping(COMPILATION_PATH + "/{compId}")
     public void deleteCompilation(@PathVariable Long compId,
                                   HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         compilationService.deleteCompilation(compId);
     }
 
-    @DeleteMapping(compilations_path + "/{compId}/events/{eventId}")
+    @DeleteMapping(COMPILATION_PATH + "/{compId}/events/{eventId}")
     public void deleteEventFromCompilation(@PathVariable Long compId,
                                            @PathVariable Long eventId,
                                            HttpServletRequest request) {
@@ -143,7 +144,7 @@ public class AdminController {
         compilationService.deleteEventFromCompilation(compId, eventId);
     }
 
-    @PatchMapping(compilations_path + "/{compId}/events/{eventId}")
+    @PatchMapping(COMPILATION_PATH + "/{compId}/events/{eventId}")
     public void addEventToCompilation(@PathVariable Long compId,
                                       @PathVariable Long eventId,
                                       HttpServletRequest request) {
@@ -151,14 +152,14 @@ public class AdminController {
         compilationService.addEventToCompilation(compId, eventId);
     }
 
-    @DeleteMapping(compilations_path + "/{compId}/pin")
+    @DeleteMapping(COMPILATION_PATH + "/{compId}/pin")
     public void unpinCompilation(@PathVariable Long compId,
                                  HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
         compilationService.unpinCompilation(compId);
     }
 
-    @PatchMapping(compilations_path + "/{compId}/pin")
+    @PatchMapping(COMPILATION_PATH + "/{compId}/pin")
     public void pinCompilation(@PathVariable Long compId,
                                HttpServletRequest request) {
         log.info("Получить новый запрос: {}", RequestBuilder.getStringFromRequest(request));
