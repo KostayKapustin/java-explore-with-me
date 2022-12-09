@@ -19,12 +19,8 @@ import java.util.List;
 public class ErrorHandler {
 
     @ExceptionHandler({CategoryNotFoundException.class, CompilationNotFoundException.class,
-<<<<<<< HEAD
             EventNotFoundException.class, RequestNotFoundExceprion.class, UserNotFoundException.class,
     CommentNotFoundException.class})
-=======
-            EventNotFoundException.class, RequestNotFoundExceprion.class, UserNotFoundException.class})
->>>>>>> 272adb929d75788d7d308634bbc55e1727b0d605
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ErrorResponse handleNotFoundException(final RuntimeException e) {
         log.info(HttpStatus.BAD_REQUEST + ": " + e.getMessage());
