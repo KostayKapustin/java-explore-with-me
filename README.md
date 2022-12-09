@@ -52,3 +52,17 @@ Java 11, Spring Boot, Lombok, JPA, Hibernate, PostgreSQL, H2, Maven, Docker
    - Сборка всего проекта **maven -clean -install**
    - Общий запуск из корневой папки командой **docker compose up**
 
+
+# Feature
+В дополнение к техническому заданию в приложении реализована функция добавления комментариев к событиям и их модерации. 
+Пулл-реквест можно посмотреть :[feature](https://github.com/KostayKapustin/java-explore-with-me/pull/4)
+### Административное API позволяет:
+
+- удалять комментарии и получать.
+
+### Приватное API позволяет:
+
+- добавлять, получать, изменять и удалять комментарии.
+
+### Схема обновлённой базы данных основного сервиса:
+![](ewm-main/src/main/resources/ewm_main_db@localhost(feature).png)
