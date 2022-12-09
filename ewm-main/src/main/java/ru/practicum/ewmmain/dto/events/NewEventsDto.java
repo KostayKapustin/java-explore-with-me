@@ -31,7 +31,11 @@ public class NewEventsDto {
 
     boolean paid = false;
 
+<<<<<<< HEAD
     int participantLimit;
+=======
+    int participantLimit = 0;
+>>>>>>> 272adb929d75788d7d308634bbc55e1727b0d605
 
     boolean requestModeration = true;
 

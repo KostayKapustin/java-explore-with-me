@@ -4,7 +4,10 @@ DROP TABLE IF EXISTS requests CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS compilation CASCADE;
 DROP TABLE IF EXISTS compilation_event CASCADE;
+<<<<<<< HEAD
 DROP TABLE IF EXISTS comments CASCADE;
+=======
+>>>>>>> 272adb929d75788d7d308634bbc55e1727b0d605
 
 CREATE TABLE IF NOT EXISTS users
 (
@@ -67,6 +70,7 @@ CREATE TABLE IF NOT EXISTS compilation_event
     compilation_id BIGINT REFERENCES compilation (compilation_id),
     PRIMARY KEY (compilation_id, event_id),
     CONSTRAINT fk_compilation_events_to_events FOREIGN KEY (event_id) REFERENCES events (event_id)
+<<<<<<< HEAD
 );
 
 CREATE TABLE IF NOT EXISTS comments
@@ -77,4 +81,6 @@ CREATE TABLE IF NOT EXISTS comments
     event_id BIGINT REFERENCES events (event_id) NOT NULL REFERENCES events ON DELETE CASCADE,
     comment_created TIMESTAMP WITHOUT TIME ZONE NOT NULL,
     comment_updated TIMESTAMP WITHOUT TIME ZONE
+=======
+>>>>>>> 272adb929d75788d7d308634bbc55e1727b0d605
 );
